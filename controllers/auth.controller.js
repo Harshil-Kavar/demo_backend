@@ -1,40 +1,69 @@
-import { User } from "../models/user.model.js";
+import { CustomError } from "../middlewares/errorHandler.js";
+import { User } from "../models/User.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const login = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) {
-    return res
-      .status(404)
-      .json({ success: false, message: "No such user registered yet" });
-  }
-  const decodedPassword = await bcrypt.compare(password, user.password);
-  if (!decodedPassword) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Your password is not valid" });
-  }
-  const token = jwt.sign({ id: user._id }, "DemoJesonWebTokenSecret");
-  return res
-    .status(200)
-    .cookie("token", token, {
-      maxAge: 1 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-    })
-    .json({ succsess: true, message: "Loggedin Successfully", token });
-};
-
-export const createDemoUser = async (req, res) => {
+export const signup = async (req, res, next) => {
   try {
-    const hasedPassword = await bcrypt.hash("admin", 12);
+    const {
+      firstName,
+      lastName,
+      mobileNumber,
+      email,
+      password,
+      role,
+      workStatus,
+      googleId,
+      picture,
+    } = req.body;
+
+    if (!firstName || !lastName || !email || !password)
+      throw new CustomError(400, "All fields are required.");
+
+    const isExistingUser = await User.findOne({ email });
+
+    if (isExistingUser) throw new CustomError(409, "User already exists.");
+
+    const hasedPassword = await bcrypt.hash(password, 10);
+
     const user = await User.create({
-      email: "admin@gmail.com",
+      fullName: `${firstName} ${lastName}`,
+      mobileNumber: mobileNumber || "",
+      email,
       password: hasedPassword,
-    });
-    res.status(200).json(user);
+      role: role || "",
+      workStatus: workStatus || "",
+      googleId: googleId || "",
+      picture: picture || "",
+    }).select("-password");
+
+    res
+      .status(201)
+      .json({ success: true, message: "User registerd successfully.", user });
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
+  }
+};
+export const signin = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password)
+      throw new CustomError(400, "All fields are required.");
+    const user = await User.findOne({ email });
+    if (!user) throw new CustomError(404, "User not found.");
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) throw new CustomError(401, "Invalid credentials.");
+
+    const token = jwt.sign(
+      { _id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+    res
+      .status(200)
+      .cookie("token", token, { httpOnly: true })
+      .json({ success: true, message: "User logged in successfully.", token });
+  } catch (error) {
+    next(error);
   }
 };

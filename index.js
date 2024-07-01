@@ -1,16 +1,39 @@
 import express from "express";
 import cors from "cors";
-import authRoutes from "./routes/auth.routes.js";
-import connectToDB from "./db.js";
+import path from "path";
+import authRoutes from "./routes/auth.route.js";
+import candidatehRoutes from "./routes/candidate.route.js";
+import { connectToDatabase } from "./db/database.js";
+import { auth } from "./middlewares/auth.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
+import cookieParser from "cookie-parser";
+import { OAuth2Client } from "google-auth-library";
+import dotenv from "dotenv";
 
-connectToDB();
+dotenv.config();
+connectToDatabase();
 const app = express();
 
-app.use(cors());
+export const client = new OAuth2Client(process.env.CLIENT_ID);
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/candidate", candidatehRoutes);
 
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+app.use(errorHandler);
+
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });
