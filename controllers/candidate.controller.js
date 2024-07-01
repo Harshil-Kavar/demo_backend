@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Candidate } from "../models/Candidate.model.js";
 import { client } from "../index.js";
-import { GoogleUser } from "../models/google.user.model.js";
+import { GoogleUser } from "../models/Google.user.model.js";
 
 export const candidateSignUp = async (req, res, next) => {
   try {
