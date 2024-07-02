@@ -31,12 +31,10 @@ export const signup = async (req, res, next) => {
       mobileNumber: mobileNumber || "",
       email,
       password: hasedPassword,
-      role: role || "",
-      workStatus: workStatus || "",
-      googleId: googleId || "",
-      picture: picture || "",
+      role: role || "candidate",
+      workStatus: workStatus || "fresher",
     });
-    user.password = null;
+    user.password = null
 
     res
       .status(201)

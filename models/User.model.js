@@ -26,13 +26,7 @@ const userSchema = mongoose.Schema(
     workStatus: {
       type: String,
       enum: ["experienced", "fresher"],
-    },
-    googleId: {
-      type: String,
-    },
-    picture: {
-      type: String,
-    },
+    }
   },
   {
     timestamps: true,
