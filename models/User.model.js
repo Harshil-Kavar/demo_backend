@@ -19,18 +19,14 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    gender: {
-      type: String,
-      enum: ["male", "female"],
-    },
-    role: {
-      type: String,
-      enum: ["employee", "candidate", "admin"],
-      default: "candidate",
-    },
     workStatus: {
       type: String,
       enum: ["experienced", "fresher"],
+      required: true,
+    },
+    sendNotifications: {
+      type: Boolean,
+      default: false,
     },
   },
   {

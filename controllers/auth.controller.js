@@ -6,17 +6,15 @@ import jwt from "jsonwebtoken";
 export const signup = async (req, res, next) => {
   try {
     const {
-      firstName,
-      lastName,
+      fullName,
       mobileNumber,
       email,
       password,
-      role,
       workStatus,
-      gender,
+      sendNotifications,
     } = req.body;
 
-    if (!firstName || !lastName || !email || !password || !gender)
+    if (!fullName || !email || !password || !mobileNumber || !workStatus)
       throw new CustomError(400, "All fields are required.");
 
     const isExistingUser = await User.findOne({ email });
@@ -26,15 +24,14 @@ export const signup = async (req, res, next) => {
     const hasedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
-      fullName: `${firstName} ${lastName}`,
-      mobileNumber: mobileNumber || "",
+      fullName,
+      mobileNumber,
       email,
       password: hasedPassword,
-      gender: gender,
-      role: role || "candidate",
-      workStatus: workStatus || "fresher",
+      workStatus: workStatus,
+      sendNotifications,
     });
-    user.password = null
+    user.password = null;
 
     res
       .status(201)
