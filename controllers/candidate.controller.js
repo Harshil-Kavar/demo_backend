@@ -5,6 +5,7 @@ import { Candidate } from "../models/Candidate.model.js";
 import { client } from "../index.js";
 import { GoogleUser } from "../models/Google.user.model.js";
 import { Profile } from "../models/Profile.model.js";
+import { EmptyProfileModel } from "../utils/getEmpltyModel.js";
 
 export const candidateSignUp = async (req, res, next) => {
   try {
@@ -37,12 +38,13 @@ export const candidateSignUp = async (req, res, next) => {
     });
     candidate.password = null;
 
-    const profile = await Profile.create({
-      candidateID: candidate._id,
-      fullName: candidate.fullName,
-      email: candidate.email,
-      mobileNumber: candidate.mobileNumber,
-    })
+    let newProfile = EmptyProfileModel;
+    newProfile.candidateID = candidate._id;
+    newProfile.fullName = candidate.fullName;
+    newProfile.email = candidate.email;
+    newProfile.mobileNumber = candidate.mobileNumber;
+
+    const profile = await Profile.create(newProfile);
 
     res.status(201).json({
       success: true,
