@@ -8,6 +8,7 @@ const userSchema = mongoose.Schema(
     },
     mobileNumber: {
       type: String,
+      required: true,
     },
     email: {
       type: String,
@@ -18,6 +19,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+    },
     role: {
       type: String,
       enum: ["employee", "candidate", "admin"],
@@ -26,7 +31,7 @@ const userSchema = mongoose.Schema(
     workStatus: {
       type: String,
       enum: ["experienced", "fresher"],
-    }
+    },
   },
   {
     timestamps: true,
