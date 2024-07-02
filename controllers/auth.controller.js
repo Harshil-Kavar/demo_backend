@@ -28,7 +28,7 @@ export const signup = async (req, res, next) => {
       mobileNumber,
       email,
       password: hasedPassword,
-      workStatus: workStatus,
+      workStatus,
       sendNotifications,
     });
     user.password = null;

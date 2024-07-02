@@ -13,28 +13,10 @@ export const candidateSignUp = async (req, res, next) => {
       email,
       password,
       workStatus,
-      location,
-      companyName,
-      jobTitle,
-      experience,
-      salary,
-      availabilityToJoin,
-      profileImage,
-      college,
-      industry,
-      dob,
-      maritalStatus,
-      gender,
+      sendNotifications,
     } = req.body;
 
-    if (
-      !fullName ||
-      !mobileNumber ||
-      !email ||
-      !password ||
-      !workStatus ||
-      !gender
-    )
+    if (!fullName || !email || !password || !mobileNumber || !workStatus)
       throw new CustomError(400, "All fields are required.");
 
     const isExistingCandidate = await Candidate.findOne({ email });
@@ -45,23 +27,12 @@ export const candidateSignUp = async (req, res, next) => {
     const hasedPassword = await bcrypt.hash(password, 10);
 
     const candidate = await Candidate.create({
-      fullName: fullName,
-      mobileNumber: mobileNumber,
-      email: email,
+      fullName,
+      mobileNumber,
+      email,
       password: hasedPassword,
-      workStatus: workStatus,
-      location: location || "",
-      companyName: companyName || "",
-      jobTitle: jobTitle || "",
-      experience: experience || "",
-      salary: salary || "",
-      availabilityToJoin: availabilityToJoin || "1month",
-      profileImage: profileImage || "",
-      college: college || "",
-      industry: industry || "",
-      dob: dob || "",
-      maritalStatus: maritalStatus,
-      gender: gender,
+      workStatus,
+      sendNotifications,
     });
     candidate.password = null;
     res.status(201).json({
