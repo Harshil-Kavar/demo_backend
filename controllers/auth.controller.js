@@ -64,3 +64,14 @@ export const signin = async (req, res, next) => {
     next(error);
   }
 };
+
+export const logout = async (req, res, next) => {
+  try {
+    res
+      .status(200)
+      .clearCookie("token")
+      .json({ success: true, message: "User logged out successfully." });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { Candidate } from "../models/Candidate.model.js";
 import { client } from "../index.js";
 import { GoogleUser } from "../models/Google.user.model.js";
+import { Profile } from "../models/Profile.model.js";
 
 export const candidateSignUp = async (req, res, next) => {
   try {
@@ -35,6 +36,14 @@ export const candidateSignUp = async (req, res, next) => {
       sendNotifications,
     });
     candidate.password = null;
+
+    const profile = await Profile.create({
+      candidateID: candidate._id,
+      fullName: candidate.fullName,
+      email: candidate.email,
+      mobileNumber: candidate.mobileNumber,
+    })
+
     res.status(201).json({
       success: true,
       message: "Candidate registerd successfully.",
@@ -114,17 +123,12 @@ export const candidateSignIn = async (req, res, next) => {
     next(error);
   }
 };
-export const getCandidateDetails = async (req, res, next) => {
+export const candidateSignOut = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    if (!id) throw new CustomError(400, "Candidate ID is required.");
-    const candidate = await Candidate.findById(id);
-    if (!candidate) throw new CustomError(404, "Candidate not found.");
-    res.status(200).json({
-      success: true,
-      message: "Candidate details fetched successfully.",
-      candidate,
-    });
+    res
+      .status(200)
+      .clearCookie("token")
+      .json({ success: true, message: "Candidate logged out successfully." });
   } catch (error) {
     next(error);
   }
