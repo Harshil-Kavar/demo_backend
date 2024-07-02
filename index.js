@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
-import authRoutes from "./routes/auth.route.js";
 import candidatehRoutes from "./routes/candidate.route.js";
 import { connectToDatabase } from "./db/database.js";
 import { auth } from "./middlewares/auth.js";
@@ -29,7 +28,6 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use("/api/auth", authRoutes);
 app.use("/api/candidate", candidatehRoutes);
 
 app.use(errorHandler);

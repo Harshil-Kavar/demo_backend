@@ -46,10 +46,17 @@ export const candidateSignUp = async (req, res, next) => {
 
     const profile = await Profile.create(newProfile);
 
-    res.status(201).json({
+    const authToken = jwt.sign(
+      { _id: candidate._id, email: candidate.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    res.status(200).cookie("token", authToken, { httpOnly: true }).json({
       success: true,
       message: "Candidate registerd successfully.",
       candidate,
+      token:authToken
     });
   } catch (error) {
     next(error);
@@ -92,7 +99,7 @@ export const candidateSignIn = async (req, res, next) => {
           httpOnly: true,
           maxAge: 1 * 24 * 60 * 60 * 1000,
         });
-        return res.status(200).json({
+        return res.status(200).cookie("token", authToken, { httpOnly: true }).json({
           status: "success",
           message: "Login via google successful",
           data: {
@@ -120,6 +127,7 @@ export const candidateSignIn = async (req, res, next) => {
       success: true,
       message: "Candidate logged in successfully.",
       token: authToken,
+      userID: candidate._id,
     });
   } catch (error) {
     next(error);
