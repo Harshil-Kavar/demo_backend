@@ -35,7 +35,8 @@ export const signup = async (req, res, next) => {
       workStatus: workStatus || "",
       googleId: googleId || "",
       picture: picture || "",
-    }).select("-password");
+    });
+    user.password = null;
 
     res
       .status(201)
