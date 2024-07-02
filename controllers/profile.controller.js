@@ -1,5 +1,6 @@
 import { Candidate } from "../models/Candidate.model.js";
 import { Profile } from "../models/Profile.model.js";
+import { CustomError } from "../middlewares/errorHandler.js";
 
 export const getCandidateDetails = async (req, res, next) => {
     try {
