@@ -13,11 +13,10 @@ export const signup = async (req, res, next) => {
       password,
       role,
       workStatus,
-      googleId,
-      picture,
+      gender,
     } = req.body;
 
-    if (!firstName || !lastName || !email || !password)
+    if (!firstName || !lastName || !email || !password || !gender)
       throw new CustomError(400, "All fields are required.");
 
     const isExistingUser = await User.findOne({ email });
@@ -31,6 +30,7 @@ export const signup = async (req, res, next) => {
       mobileNumber: mobileNumber || "",
       email,
       password: hasedPassword,
+      gender: gender,
       role: role || "candidate",
       workStatus: workStatus || "fresher",
     });
