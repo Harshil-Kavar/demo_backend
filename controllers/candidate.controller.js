@@ -81,7 +81,7 @@ export const candidateSignIn = async (req, res, next) => {
         newProfile.fullName = googleUser.fullName;
         newProfile.email = googleUser.email;
         newProfile.mobileNumber = googleUser.mobileNumber;
-    
+
         const profile = await Profile.create(newProfile);
 
         const authToken = jwt.sign(
@@ -101,7 +101,21 @@ export const candidateSignIn = async (req, res, next) => {
           },
         });
       } else {
-        return res.status(500).json({ message: "Please try again" });
+        const authToken = jwt.sign(
+          { _id: isCandidateExist._id },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: 24 * 60 * 60,
+          }
+        );
+        return res.status(200).json({
+          status: "success",
+          message: "Login via google successful",
+          data: {
+            userid: isCandidateExist._id,
+            token: authToken,
+          },
+        });
       }
     }
 
