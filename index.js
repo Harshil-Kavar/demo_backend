@@ -6,14 +6,12 @@ import { connectToDatabase } from "./db/database.js";
 import { auth } from "./middlewares/auth.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import cookieParser from "cookie-parser";
-import { OAuth2Client } from "google-auth-library";
 import dotenv from "dotenv";
 
 dotenv.config();
 connectToDatabase();
 const app = express();
 
-export const client = new OAuth2Client(process.env.CLIENT_ID);
 
 app.use(
   cors({

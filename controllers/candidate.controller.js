@@ -2,7 +2,6 @@ import { CustomError } from "../middlewares/errorHandler.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Candidate } from "../models/Candidate.model.js";
-import { client } from "../index.js";
 import { GoogleUser } from "../models/Google.user.model.js";
 import { Profile } from "../models/Profile.model.js";
 import { EmptyProfileModel } from "../utils/getEmpltyModel.js";
@@ -56,7 +55,7 @@ export const candidateSignUp = async (req, res, next) => {
       success: true,
       message: "Candidate registerd successfully.",
       candidate,
-      token:authToken
+      token: authToken,
     });
   } catch (error) {
     next(error);
@@ -64,29 +63,18 @@ export const candidateSignUp = async (req, res, next) => {
 };
 export const candidateSignIn = async (req, res, next) => {
   try {
-    const { email, password, type, token } = req.body;
+    const { email, password, type, googleId, name, picture } = req.body;
 
     if (type == "google") {
-      const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: process.env.CLIENT_ID,
-      });
-      const payload = ticket.getPayload();
-      const userid = payload["sub"];
-
       let isCandidateExist = await GoogleUser.findOne({ googleId: userid });
-
-      console.log("payload", payload);
 
       if (!isCandidateExist) {
         const googleUser = GoogleUser.create({
-          googleId: userid,
-          email: payload["email"],
-          name: payload["name"],
-          picture: payload["picture"],
+          googleId,
+          email,
+          name,
+          picture,
         });
-
-        console.log("new google user : ", googleUser);
 
         const authToken = jwt.sign(
           { _id: googleUser._id },
@@ -95,6 +83,7 @@ export const candidateSignIn = async (req, res, next) => {
             expiresIn: 24 * 60 * 60,
           }
         );
+        
         return res.status(200).json({
           status: "success",
           message: "Login via google successful",
