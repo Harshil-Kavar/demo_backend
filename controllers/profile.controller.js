@@ -7,9 +7,6 @@ export const getCandidateDetails = async (req, res, next) => {
       const { id } = req.user;
       if (!id) throw new CustomError(400, "Candidate ID is required.");
 
-      const candidate = await Candidate.findById(id);
-      if (!candidate) throw new CustomError(404, "Candidate not found.");
-
       const profile = await Profile.findOne({ candidateID: id });
       if (!profile) throw new CustomError(404, "Candidate profile not found.");
 
@@ -28,9 +25,6 @@ export const getCandidateDetails = async (req, res, next) => {
       const { id } = req.user;
       if (!id) throw new CustomError(400, "Candidate ID is required.");
   
-      const candidate = await Candidate.findById(id);
-      if (!candidate) throw new CustomError(404, "Candidate not found.");
-  
       const profile = await Profile.findOne({ candidateID: id });
       if (!profile) throw new CustomError(404, "Candidate profile not found.");
   
@@ -38,14 +32,14 @@ export const getCandidateDetails = async (req, res, next) => {
       const { isCurrentEmployement, employmentType, personalDetails } = employment;
       const { gender, maritalStatus, dob, category, abled, type, workplaceAssistance, address, city, pincode} = personalDetails;
   
-    profile.fullName = fullName || candidate.fullName;
+    profile.fullName = fullName || profile.fullName;
     profile.jobTitle = jobTitle || profile.jobTitle;
     profile.companyName = companyName || profile.companyName;
     profile.location = location || profile.location;
     profile.experience = experience || profile.experience;
     profile.salary = salary || profile.salary
-    profile.mobileNumber = mobileNumber || candidate.mobileNumber;
-    profile.email = email || candidate.email;
+    profile.mobileNumber = mobileNumber || profile.mobileNumber;
+    profile.email = email || profile.email;
     profile.availabilityToJoin = availabilityToJoin || profile.availabilityToJoin;
 
     profile.employment.isCurrentEmployement = isCurrentEmployement || profile.employment.isCurrentEmployement;
