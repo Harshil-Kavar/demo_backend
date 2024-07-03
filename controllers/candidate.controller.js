@@ -66,7 +66,7 @@ export const candidateSignIn = async (req, res, next) => {
     const { email, password, type, googleId, name, picture } = req.body;
 
     if (type == "google") {
-      let isCandidateExist = await GoogleUser.findOne({ googleId: userid });
+      let isCandidateExist = await GoogleUser.findOne({ googleId: googleId });
 
       if (!isCandidateExist) {
         const googleUser = await GoogleUser.create({
