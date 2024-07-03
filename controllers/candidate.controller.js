@@ -69,12 +69,20 @@ export const candidateSignIn = async (req, res, next) => {
       let isCandidateExist = await GoogleUser.findOne({ googleId: userid });
 
       if (!isCandidateExist) {
-        const googleUser = GoogleUser.create({
+        const googleUser = await GoogleUser.create({
           googleId,
           email,
           name,
           picture,
         });
+
+        let newProfile = EmptyProfileModel;
+        newProfile.candidateID = googleUser._id;
+        newProfile.fullName = googleUser.fullName;
+        newProfile.email = googleUser.email;
+        newProfile.mobileNumber = googleUser.mobileNumber;
+    
+        const profile = await Profile.create(newProfile);
 
         const authToken = jwt.sign(
           { _id: googleUser._id },
@@ -83,7 +91,7 @@ export const candidateSignIn = async (req, res, next) => {
             expiresIn: 24 * 60 * 60,
           }
         );
-        
+
         return res.status(200).json({
           status: "success",
           message: "Login via google successful",
