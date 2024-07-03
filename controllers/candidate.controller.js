@@ -95,10 +95,8 @@ export const candidateSignIn = async (req, res, next) => {
         return res.status(200).json({
           status: "success",
           message: "Login via google successful",
-          data: {
-            userid: googleUser._id,
-            token: authToken,
-          },
+          token: authToken,
+          userID: googleUser._id,
         });
       } else {
         const authToken = jwt.sign(
@@ -111,10 +109,8 @@ export const candidateSignIn = async (req, res, next) => {
         return res.status(200).json({
           success: true,
           message: "Login via google successful",
-          data: {
-            userid: isCandidateExist._id,
-            token: authToken,
-          },
+          token: authToken,
+          userID: isCandidateExist._id,
         });
       }
     }
