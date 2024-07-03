@@ -52,7 +52,7 @@ export const candidateSignUp = async (req, res, next) => {
       { expiresIn: "24h" }
     );
 
-    res.status(200).cookie("token", authToken, { httpOnly: true }).json({
+    res.status(200).json({
       success: true,
       message: "Candidate registerd successfully.",
       candidate,
@@ -95,11 +95,7 @@ export const candidateSignIn = async (req, res, next) => {
             expiresIn: 24 * 60 * 60,
           }
         );
-        res.cookie("jwt", authToken, {
-          httpOnly: true,
-          maxAge: 1 * 24 * 60 * 60 * 1000,
-        });
-        return res.status(200).cookie("token", authToken, { httpOnly: true }).json({
+        return res.status(200).json({
           status: "success",
           message: "Login via google successful",
           data: {
@@ -123,7 +119,7 @@ export const candidateSignIn = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
-    res.status(200).cookie("token", authToken, { httpOnly: true }).json({
+    res.status(200).json({
       success: true,
       message: "Candidate logged in successfully.",
       token: authToken,
@@ -137,7 +133,6 @@ export const candidateSignOut = async (req, res, next) => {
   try {
     res
       .status(200)
-      .clearCookie("token")
       .json({ success: true, message: "Candidate logged out successfully." });
   } catch (error) {
     next(error);

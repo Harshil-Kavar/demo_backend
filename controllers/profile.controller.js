@@ -4,7 +4,7 @@ import { CustomError } from "../middlewares/errorHandler.js";
 
 export const getCandidateDetails = async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { id } = req.user;
       if (!id) throw new CustomError(400, "Candidate ID is required.");
 
       const candidate = await Candidate.findById(id);
@@ -25,7 +25,7 @@ export const getCandidateDetails = async (req, res, next) => {
   
   export const updateCandidateDetails = async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { id } = req.user;
       if (!id) throw new CustomError(400, "Candidate ID is required.");
   
       const candidate = await Candidate.findById(id);
