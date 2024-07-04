@@ -27,7 +27,8 @@ export const getCandidateDetails = async (req, res, next) => {
   
       const profile = await Profile.findOne({ candidateID: id });
       if (!profile) throw new CustomError(404, "Candidate profile not found.");
-      const { fullName, jobTitle, companyName, location, experience, salary, mobileNumber, email, availabilityToJoin, employment, personalDetails} = req.body;
+      const { fullName, jobTitle, companyName, location, experience, salary, mobileNumber, email, availabilityToJoin, employment, personalDetails, education} = req.body;
+      const { educationType, university, course, courseType, specialization, duration, percentage } = education;
       const { isCurrentEmployement, employmentType } = employment;
       const { gender, maritalStatus, dob, category, abled, type, workplaceAssistance, address, city, pincode} = personalDetails;
   
@@ -40,6 +41,15 @@ export const getCandidateDetails = async (req, res, next) => {
       profile.mobileNumber = mobileNumber || profile.mobileNumber;
       profile.email = email || profile.email;
       profile.availabilityToJoin = availabilityToJoin || profile.availabilityToJoin;
+
+      profile.education.educationType = educationType || profile.education.educationType;
+      profile.education.university = university || profile.education.university;
+      profile.education.course = course || profile.education.course;
+      profile.education.courseType = courseType || profile.education.courseType;
+      profile.education.specialization = specialization || profile.education.specialization;
+      profile.education.duration = duration || profile.education.duration;
+      profile.education.percentage = percentage || profile.education.percentage;
+      
       
       profile.employment.isCurrentEmployement = isCurrentEmployement || profile.employment.isCurrentEmployement;
       profile.employment.employmentType = employmentType || profile.employment.employmentType;

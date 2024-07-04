@@ -48,7 +48,31 @@ const profileSchema = new mongoose.Schema(
       enum: ["15days", "1month", "2months", "3months", "morethan3months"],
       default: "1month",
     },
-
+    education: {
+      educationType: {
+        type: String,
+      },
+      university: {
+        type: String,
+      },
+      course: {
+        type: String,
+      },
+      courseType: {
+        type: String,
+        enum: ["Full time", "Part time", "correspondence/Distance learning"],
+        default: "Full time",
+      },
+      specialization: {
+        type: String,
+      },
+      duration: {
+        type: String,
+      },
+      percentage: {
+        type: String,
+      },
+    },
     employment: {
       isCurrentEmployement: {
         type: Boolean,

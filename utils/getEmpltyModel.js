@@ -9,6 +9,15 @@ export const EmptyProfileModel = {
   mobileNumber: "",
   email: "",
   availabilityToJoin: "1month",
+  education: {
+    educationType: "",
+    university: "",
+    course: "",
+    courseType: "Full time",
+    specialization: "",
+    duration: "",
+    percentage: "",
+  },
   employment: {
     isCurrentEmployement: false,
     employmentType: "fulltime",
