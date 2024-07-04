@@ -78,7 +78,7 @@ export const candidateSignIn = async (req, res, next) => {
 
         let newProfile = EmptyProfileModel;
         newProfile.candidateID = googleUser._id;
-        newProfile.fullName = googleUser.fullName;
+        newProfile.fullName = googleUser.name;
         newProfile.email = googleUser.email;
         newProfile.mobileNumber = googleUser.mobileNumber;
 
