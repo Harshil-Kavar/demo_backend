@@ -29,7 +29,7 @@ export const getCandidateDetails = async (req, res, next) => {
       if (!profile) throw new CustomError(404, "Candidate profile not found.");
       const { fullName, jobTitle, companyName, location, experience, salary, mobileNumber, email, availabilityToJoin, employment, personalDetails, education} = req.body;
       const { educationType, university, course, courseType, specialization, duration, percentage } = education;
-      const { isCurrentEmployement, employmentType } = employment;
+      const { isCurrentEmployement, employmentType,totalExperience, currentCompanyName, currentJobTitle, joiningDate, currentSalary, salaryBloakdown, skills, jobProfile, noticePeriod, } = employment;
       const { gender, maritalStatus, dob, category, abled, type, workplaceAssistance, address, city, pincode} = personalDetails;
   
       profile.fullName = fullName || profile.fullName;
@@ -53,6 +53,16 @@ export const getCandidateDetails = async (req, res, next) => {
       
       profile.employment.isCurrentEmployement = isCurrentEmployement || profile.employment.isCurrentEmployement;
       profile.employment.employmentType = employmentType || profile.employment.employmentType;
+      profile.employment.totalExperience = totalExperience || profile.employment.totalExperience;
+      profile.employment.currentCompanyName = currentCompanyName || profile.employment.currentCompanyName;
+      profile.employment.currentJobTitle = currentJobTitle || profile.employment.currentJobTitle;
+      profile.employment.joiningDate = joiningDate || profile.employment.joiningDate;
+      profile.employment.currentSalary = currentSalary || profile.employment.currentSalary;
+      profile.employment.salaryBloakdown = salaryBloakdown || profile.employment.salaryBloakdown;
+      profile.employment.skills = skills || profile.employment.skills;
+      profile.employment.jobProfile = jobProfile || profile.employment.jobProfile;
+      profile.employment.noticePeriod = noticePeriod || profile.employment.noticePeriod;
+
       
       profile.personalDetails.gender = gender || profile.personalDetails.gender;
       profile.personalDetails.maritalStatus = maritalStatus || profile.personalDetails.maritalStatus;

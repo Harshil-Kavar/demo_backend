@@ -81,6 +81,33 @@ const profileSchema = new mongoose.Schema(
         type: String,
         enum: ["fulltime", "parttime", "internship"],
       },
+      totalExperience: {
+        type: String,
+      },
+      currentCompanyName: {
+        type: String,
+      },
+      currentJobTitle: {
+        type: String,
+      },
+      joiningDate: {
+        type: String,
+      },
+      currentSalary: {
+        type: String,
+      },
+      salaryBloakdown: {
+        type: String,
+      },
+      skills: {
+        type: String,
+      },
+      jobProfile: {
+        type: String,
+      },
+      noticePeriod: {
+        type: String,
+      },
     },
     personalDetails: {
       gender: {

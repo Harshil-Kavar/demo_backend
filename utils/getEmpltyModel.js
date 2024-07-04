@@ -21,6 +21,15 @@ export const EmptyProfileModel = {
   employment: {
     isCurrentEmployement: false,
     employmentType: "fulltime",
+    totalExperience: "",
+    currentCompanyName: "",
+    currentJobTitle: "",
+    joiningDate: "",
+    currentSalary: "",
+    salaryBloakdown: "",
+    skills: "",
+    jobProfile: "",
+    noticePeriod: "",
   },
   personalDetails: {
     gender: "male",
