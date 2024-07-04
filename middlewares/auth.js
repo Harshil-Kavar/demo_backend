@@ -31,7 +31,6 @@ export const auth = (req, res, next) => {
       id: decodedJWT._id,
       email: decodedJWT.email,
     };
-    console.log(user)
     req.user = user;
 
     next();

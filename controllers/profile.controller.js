@@ -27,34 +27,33 @@ export const getCandidateDetails = async (req, res, next) => {
   
       const profile = await Profile.findOne({ candidateID: id });
       if (!profile) throw new CustomError(404, "Candidate profile not found.");
-  
-      const { fullName, jobTitle, companyName, location, experience, salary, mobileNumber, email, availabilityToJoin, employment} = req.body;
-      const { isCurrentEmployement, employmentType, personalDetails } = employment;
+      const { fullName, jobTitle, companyName, location, experience, salary, mobileNumber, email, availabilityToJoin, employment, personalDetails} = req.body;
+      const { isCurrentEmployement, employmentType } = employment;
       const { gender, maritalStatus, dob, category, abled, type, workplaceAssistance, address, city, pincode} = personalDetails;
   
-    profile.fullName = fullName || profile.fullName;
-    profile.jobTitle = jobTitle || profile.jobTitle;
-    profile.companyName = companyName || profile.companyName;
-    profile.location = location || profile.location;
-    profile.experience = experience || profile.experience;
-    profile.salary = salary || profile.salary
-    profile.mobileNumber = mobileNumber || profile.mobileNumber;
-    profile.email = email || profile.email;
-    profile.availabilityToJoin = availabilityToJoin || profile.availabilityToJoin;
-
-    profile.employment.isCurrentEmployement = isCurrentEmployement || profile.employment.isCurrentEmployement;
-    profile.employment.employmentType = employmentType || profile.employment.employmentType;
-
-    profile.employment.personalDetails.gender = gender || profile.employment.personalDetails.gender 
-    profile.employment.personalDetails.maritalStatus = maritalStatus || profile.employment.personalDetails.maritalStatus 
-    profile.employment.personalDetails.dob = dob || profile.employment.personalDetails.dob 
-    profile.employment.personalDetails.category = category || profile.employment.personalDetails.category 
-    profile.employment.personalDetails.abled = abled || profile.employment.personalDetails.abled 
-    profile.employment.personalDetails.type = type || profile.employment.personalDetails.type 
-    profile.employment.personalDetails.workplaceAssistance = workplaceAssistance || profile.employment.personalDetails.workplaceAssistance 
-    profile.employment.personalDetails.address = address || profile.employment.personalDetails.address 
-    profile.employment.personalDetails.city = city || profile.employment.personalDetails.city 
-    profile.employment.personalDetails.pincode = pincode || profile.employment.personalDetails.pincode 
+      profile.fullName = fullName || profile.fullName;
+      profile.jobTitle = jobTitle || profile.jobTitle;
+      profile.companyName = companyName || profile.companyName;
+      profile.location = location || profile.location;
+      profile.experience = experience || profile.experience;
+      profile.salary = salary || profile.salary;
+      profile.mobileNumber = mobileNumber || profile.mobileNumber;
+      profile.email = email || profile.email;
+      profile.availabilityToJoin = availabilityToJoin || profile.availabilityToJoin;
+      
+      profile.employment.isCurrentEmployement = isCurrentEmployement || profile.employment.isCurrentEmployement;
+      profile.employment.employmentType = employmentType || profile.employment.employmentType;
+      
+      profile.personalDetails.gender = gender || profile.personalDetails.gender;
+      profile.personalDetails.maritalStatus = maritalStatus || profile.personalDetails.maritalStatus;
+      profile.personalDetails.dob = dob || profile.personalDetails.dob;
+      profile.personalDetails.category = category || profile.personalDetails.category;
+      profile.personalDetails.abled = abled || profile.personalDetails.abled;
+      profile.personalDetails.type = type || profile.personalDetails.type;
+      profile.personalDetails.workplaceAssistance = workplaceAssistance || profile.personalDetails.workplaceAssistance;
+      profile.personalDetails.address = address || profile.personalDetails.address;
+      profile.personalDetails.city = city || profile.personalDetails.city;
+      profile.personalDetails.pincode = pincode || profile.personalDetails.pincode;
 
     await profile.save();
     res.status(200).json({
