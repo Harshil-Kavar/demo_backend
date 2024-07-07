@@ -88,12 +88,12 @@ export const candidateSignIn = async (req, res, next) => {
           { _id: googleUser._id },
           process.env.JWT_SECRET,
           {
-            expiresIn: 24 * 60 * 60,
+            expiresIn: 24 * 60 * 60 * 1000,
           }
         );
 
         return res.status(200).json({
-          status: "success",
+          success: true,
           message: "Login via google successful",
           token: authToken,
           userID: googleUser._id,
