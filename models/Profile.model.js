@@ -7,6 +7,9 @@ const profileSchema = new mongoose.Schema(
       ref: "Candidate",
       required: true,
     },
+    profilePicture:{
+      type:String,
+    },
     fullName: {
       type: String,
       default: "",
@@ -118,7 +121,7 @@ const profileSchema = new mongoose.Schema(
         type: String,
         enum: [
           "married",
-          "unmarried",
+          "single",
           "widowed",
           "divorced",
           "separated",

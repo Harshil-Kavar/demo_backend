@@ -1,8 +1,10 @@
 export const EmptyProfileModel = {
   candidateID: "",
+  profilePicture: "",
   fullName: "",
   jobTitle: "",
   companyName: "",
+  lastUpdatedAt: Date.now(),
   location: "",
   experience: "",
   salary: "",
