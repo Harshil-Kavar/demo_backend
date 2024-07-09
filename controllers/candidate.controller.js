@@ -39,7 +39,7 @@ export const candidateSignUp = async (req, res, next) => {
 export const candidateSignIn = async (req, res, next) => {
   try {
     const { email, password, type, googleId, name, picture } = req.body;
-
+    console.log(req.body);
     if (type == "google") {
       let isCandidateExist = await GoogleUser.findOne({ googleId: googleId });
 
