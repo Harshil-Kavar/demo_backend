@@ -113,6 +113,12 @@ const profileSchema = new mongoose.Schema(
       },
     },
     personalDetails: {
+      email: {
+        type: String,
+      },
+      mobileNumber: {
+        type: String,
+      },
       gender: {
         type: String,
         enum: ["male", "female", "transgender"],

@@ -6,8 +6,11 @@ export const createProfile = async (candidate) => {
   newProfile.candidateID = candidate._id;
   newProfile.fullName = candidate.fullName;
   newProfile.email = candidate.email;
+  newProfile.personalDetails.email = candidate.email;
   newProfile.mobileNumber = candidate.mobileNumber;
   newProfile.profilePicture = candidate.picture ? candidate.picture : "";
+  newProfile.personalDetails.maritalStatus = "single";
+  newProfile.personalDetails.gender = "male";
 
   const profile = await Profile.create(newProfile);
 
@@ -23,7 +26,7 @@ export const updateProfileByCandidateID = async (id,data) => {
   const { profilePicture, fullName, jobTitle, companyName, location, experience, salary, mobileNumber, email, availabilityToJoin, employment, personalDetails, education} = data;
   const { educationType, university, course, courseType, specialization, duration, percentage } = education;
   const { isCurrentEmployement, employmentType,totalExperience, currentCompanyName, currentJobTitle, joiningDate, currentSalary, salaryBloakdown, skills, jobProfile, noticePeriod, } = employment;
-  const { gender, maritalStatus, dob, category, abled, type, workplaceAssistance, address, city, pincode} = personalDetails;
+  const { gender, maritalStatus, dob, category, abled, type, workplaceAssistance, address, city, pincode,} = personalDetails;
  
      profile.fullName = fullName || profile.fullName;
      profile.profilePicture = profilePicture || profile.profilePicture;
@@ -57,6 +60,8 @@ export const updateProfileByCandidateID = async (id,data) => {
      profile.employment.jobProfile = jobProfile || profile.employment.jobProfile;
      profile.employment.noticePeriod = noticePeriod || profile.employment.noticePeriod;
      
+     profile.personalDetails.email = email || profile.personalDetails.email;
+     profile.personalDetails.mobileNumber = mobileNumber || profile.personalDetails.mobileNumber;
      profile.personalDetails.gender = gender || profile.personalDetails.gender;
      profile.personalDetails.maritalStatus = maritalStatus || profile.personalDetails.maritalStatus;
      profile.personalDetails.dob = dob || profile.personalDetails.dob;

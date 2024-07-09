@@ -34,8 +34,10 @@ export const EmptyProfileModel = {
     noticePeriod: "",
   },
   personalDetails: {
+    email: "",
+    mobileNumber: "",
     gender: "male",
-    maritalStatus: "unmarried",
+    maritalStatus: "single",
     dob: "",
     category: "general",
     abled: false,
