@@ -29,11 +29,7 @@ export const candidateSignUp = async (req, res, next) => {
     res
       .status(200)
       .json(
-        customResponse(
-          true,
-          "Candidate registerd successfully.",
-          {token:authToken,candidate}
-        )
+        { success: true,  message :"Candidate registerd successfully.",  token:authToken,  candidate}
       );
   } catch (error) {
     next(error);
@@ -55,10 +51,10 @@ export const candidateSignIn = async (req, res, next) => {
         const authToken = getAuthToken(googleUser._id, googleUser.email);
 
         return res.status(200).json(
-          customResponse(true, "Login via google successful",  {
+          {success:true,message: "Login via google successful",
             token:authToken,
-            id: googleUser._id,
-          })
+            userID: googleUser._id,
+          }
         );
       } else {
         const authToken = getAuthToken(
@@ -67,10 +63,7 @@ export const candidateSignIn = async (req, res, next) => {
         );
 
         return res.status(200).json(
-          customResponse(true, "Login via google successful", {
-            token:authToken,
-            id: isCandidateExist._id,
-          })
+          {success:true,message: "Login via google successful",token:authToken, userID:isCandidateExist._id}
         );
       }
     }
@@ -89,10 +82,7 @@ export const candidateSignIn = async (req, res, next) => {
     const authToken = getAuthToken(candidate._id, candidate.email);
 
     res.status(200).json(
-      customResponse(true, "Candidate logged in successfully.", {
-        token:authToken,
-        id: candidate._id,
-      })
+      {success:true,message: "Candidate logged in successfully.", token:authToken, userID: candidate._id,}
     );
   } catch (error) {
     next(error);

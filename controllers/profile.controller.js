@@ -1,7 +1,7 @@
 import { Profile } from "../models/Profile.model.js";
 import { CustomError } from "../middlewares/errorHandler.js";
 import { updateProfileByCandidateID } from "../repository/profile.repo.js";
-import { customResponse } from "../utils/cutomResponse.js";
+// import { customResponse } from "../utils/cutomResponse.js";
 
 export const getCandidateDetails = async (req, res, next) => {
   try {
@@ -14,7 +14,7 @@ export const getCandidateDetails = async (req, res, next) => {
     res
       .status(200)
       .json(
-        customResponse(true, "Profile details fetched successfully.", profile)
+        {success: true, message:"Profile details fetched successfully.", profile}
       );
   } catch (error) {
     next(error);
@@ -31,7 +31,7 @@ export const updateCandidateDetails = async (req, res, next) => {
     res
       .status(200)
       .json(
-        customResponse(true, "Candidate details updated successfully.", profile)
+        {success:true,message: "Candidate details updated successfully.", profile}
       );
   } catch (error) {
     next(error);
